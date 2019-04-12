@@ -1,11 +1,15 @@
+# Importando bibliotecas do aima-python
 from agents import (Agent, Thing, Environment)
 
+# Classe que representa pouca sujeira
 class LittleDirty(Thing):
     pass
 
+# Classe que representa muita sujeira
 class LotDirty(Thing):
     pass
 
+# Agente
 class RandomVacuumAgent4Places(Agent):
     location = "A"
 
@@ -19,20 +23,23 @@ class RandomVacuumAgent4Places(Agent):
         elif self.location == "D":
             self.location = "A"
 
+    # Limpa se for pouca sujeira
     def clean(self, thing):
         if isinstance(thing, LittleDirty):
             return True
         return False
 
+    # Lava se for muita sujeira
     def wash(self, thing):
         if isinstance(thing, LotDirty):
             return True
         return False
 
+# Ambiente
 class Rooms(Environment):
 
     def percept(self, agent):
-        '''return a list of things that are in our agent's location'''
+        '''Retorna uma lista de coisas que estão no local do agente'''
         return self.list_things_at(agent.location)
 
     def execute_action(self, agent, action):
@@ -44,16 +51,16 @@ class Rooms(Environment):
             if len(items) != 0:
                 if agent.clean(items[0]): # Have the agent cleaned the room ?
                     print("Vacuum decided to vacuum the room {}.".format(agent.location))
-                    self.delete_thing(items[0]) #Delete it from the Room.
+                    self.delete_thing(items[0]) # Delete it from the Room.
         elif action == "wash":
             items = self.list_things_at(agent.location, tclass=LotDirty)
             if len(items) != 0:
                 if agent.wash(items[0]): # Have the agent cleaned the room ?
                     print("Vacuum decided to wash the room {}.".format(agent.location))
-                    self.delete_thing(items[0]) #Delete it from the Room.
+                    self.delete_thing(items[0]) # Delete it from the Room.
 
 def program(percepts):
-    '''Returns an action based on the dog's percepts'''
+    '''Retorna a ação baseado no estado de sujeira da sala'''
     for p in percepts:
         if isinstance(p, LittleDirty):
             return 'clean'
@@ -68,5 +75,7 @@ rooms.add_thing(LittleDirty(), "A")
 rooms.add_thing(LotDirty(), "C")
 rooms.add_thing(LittleDirty(), "B")
 rooms.add_thing(LotDirty(), "B")
+rooms.add_thing(LittleDirty(), "A")
+rooms.add_thing(LotDirty(), "D")
 
 rooms.run(10)
