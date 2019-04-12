@@ -63,10 +63,10 @@ def program(percepts):
 
 rooms = Rooms()
 ag = RandomVacuumAgent4Places(program)
-little_dirty = LittleDirty()
-lot_dirty = LotDirty()
 rooms.add_thing(ag, "A")
-rooms.add_thing(little_dirty, "A")
-rooms.add_thing(lot_dirty, "C")
+rooms.add_thing(LittleDirty(), "A")
+rooms.add_thing(LotDirty(), "C")
+rooms.add_thing(LittleDirty(), "B")
+rooms.add_thing(LotDirty(), "B")
 
-rooms.run(5)
+rooms.run(10)
